@@ -1,0 +1,43 @@
+services:
+  ng-frontend:
+    image: anon08/bones-frontend:latest
+    container_name: bones-ng-container
+    ports:
+      - "4200:80"
+    networks:
+      - bones-network
+    depends_on:
+      - sb-backend
+      - fsk-backend
+    restart: always
+
+  sb-backend:
+    image: anon08/bones-java-backend:latest
+    container_name: bones-sb-container
+    ports:
+      - "8080:8080"
+    networks:
+      - bones-network
+    environment:
+      - SPRING_APPLICATION_NAME=bones
+      - SPRING_DATA_MONGODB_URI=${MONGODB_URI}
+      - SPRING_DATA_MONGODB_DATABASE=${MONGODB_DATABASE}
+      - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY=DEBUG
+    restart: always
+
+  fsk-backend:
+    image: anon08/bones-python-backend:latest
+    container_name: bones-fsk-container
+    ports:
+      - "8000:8000"
+    networks:
+      - bones-network
+    environment:
+      FLASK_APP: "api.py"
+      FLASK_ENV: "development"
+      PYTHONPATH: "/app"
+    restart: always
+
+networks:
+  bones-network:
+    driver: bridge
