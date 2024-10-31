@@ -14,7 +14,7 @@ A dice game implementation with Angular frontend and dual backend architecture (
 1. Create a `.env` file in the root directory with the following content:
 
 MONGODB_URI=<mongodb-connection-string>
-MONGODB_DATABASE=<database_name
+MONGODB_DATABASE=<database_name>
 
 2. Run the application:
 
